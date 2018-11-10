@@ -232,6 +232,10 @@ def drawTarget(canvas, data, widthR, heightR, level):
     widthR -= 20
     heightR -= 20
     drawTarget(canvas, data, widthR, heightR, level-1)
+    
+def drawTargetStands(canvas, data):
+    canvas.create_rectangle(860, 370, 890, 450, fill = 'brown')
+    canvas.create_rectangle(910, 370, 940, 450, fill = 'brown')
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -271,6 +275,7 @@ def redrawAll(canvas, data):
         drawLandscape(canvas)
         data.bow.drawBow(data,canvas)
         data.arrow.drawArrow(data, canvas)
+        drawTargetStands(canvas, data)
         drawTarget(canvas, data, 56, 80, 4)
         canvas.create_text(data.width // 2, data.height - data.txtMargin,
                                 text="Press \'f\' to fire and 'r' to reset",
