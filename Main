@@ -1,12 +1,32 @@
 from tkinter import *
-#test
+
+
+class Arrow(object):
+    def __init__(self, tipX, tipY, angle):
+        self.X, self.Y = tipX, tipY
+        self.angle = angle
+        self.power = 0 # 0-100
+    def changePower(sign):
+        if sign >= 0 and self.power + sign <= 100:
+            self.power += sign
+        elif sign < 0 and self.power + sign >= 0:
+            self.power -= sign
+    def changeAngle(sign):
+        if sign >= 0 and self.angle + sign <= 90:
+            self.angle += sign
+        elif sign < 0 and self.angle + sign >= 0:
+            self.angle -= sign
+    def shoot(self):
+        #TODO need to implement
+        pass
+
 ####################################
-# customize these functions
+# mainframe functions
 ####################################
 
 def init(data):
     # load data.xyz as appropriate
-    data.screens = ["start", "game", "end"]
+    data.screens = ["start", "instructions", "game", "end"]
     data.gameMode = data.screens[0]
     data.txtMargin = 10
     loadImages(data)
@@ -20,10 +40,26 @@ def mousePressed(event, data):
 
 def keyPressed(event, data):
     # use event.char and event.keysym
-    pass
-
+    if data.gameMode == data.screens[0] and event.keysym == "space":
+        data.gameMode = data.screens[1]
+    elif data.gameMode == data.screens[1] and event.keysym == "space":
+        data.gameMode = data.screens[2]
+    elif data.gameMode == data.screens[2]:
+        if event.keysym == "Up":
+            data.arrow.changePower(2)
+        elif event.keysym == "Down":
+            data.arrow.changePower(-2)
+        elif event.keysym == "Right":
+            data.arrow.changeAngle(-2)
+        elif event.keysym == "Left":
+            data.arrow.changeAngle(2)
+        elif event.keysym == "space":
+            data.arrow.shoot()
+        elif event.char == 'h':
+            data.gameMode = data.screens[1]
+            
 def timerFired(data):
-    pass#
+    pass
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -37,16 +73,36 @@ def redrawAll(canvas, data):
                     text="Game", font="Arial " + str(data.height // 10 - 3),
                                     fill="white")
         canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
-                                    text="Press \"p\" to play...",
+                                    text="Press \"space\" to start...",
                                     font="Arial " + str(data.height // 22),
                                     fill="grey80", anchor=S)
         #draw CLICKER last to stand out better
         canvas.create_text(data.width // 2, data.height // 2, text="ARROW",
                                 font="Arial " + str(data.height // 5) + " bold",
                                 fill="red")
+    elif data.gameMode == "instructions":
+        canvas.create_text(data.width / 2, data.height / 4,
+                        text="Aim using the Left and Right arrow keys",
+                        font="Arial " + str(data.height // 18))
+        canvas.create_text(data.width / 2, 3*data.height / 5,
+                        text="Change the power of the shot using",
+                        font="Arial " + str(data.height // 18))
+        canvas.create_text(data.width / 2 + 5,
+                        3*data.height / 5 + data.height // 18 + data.txtMargin,
+                        text="the Up and Down arrow keys",
+                        font="Arial " + str(data.height // 18))
+        canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
+                                    text="Press \"space\" to continue...",
+                                    font="Arial " + str(data.height // 22),
+                                    fill="grey80", anchor=S)
+    elif data.gameMode == "game":
+        canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
+                                    text="Press \'h\' for help",
+                                    font="Arial " + str(data.height // 22),
+                                    fill="grey80", anchor=S)
 
 ####################################
-# use the run function as-is
+# mainframe loop
 ####################################
 
 def run(width=300, height=300):
