@@ -138,6 +138,43 @@ def keyPressed(event, data):
             
 def timerFired(data):
     pass
+def rgbString(red, green, blue):
+    return "#%02x%02x%02x" % (red, green, blue)
+
+def drawBush(canvas, x, y):
+    color = rgbString(0, 102, 0)
+    c1x, c1y = x - 50, y - 15
+    c2x, c2y = x - 50, y - 45
+    c3x, c3y = x - 43, y - 74
+    c4x, c4y = x - 13, y - 74
+    c5x, c5y = x + 17, y - 74
+    c6x, c6y = x + 24, y - 45
+    c7x, c7y = x + 24, y - 15
+    canvas.create_oval(c1x - 15, c1y - 15, c1x + 15, c1y + 15, fill=color, width=0)
+    canvas.create_oval(c2x - 15, c2y - 15, c2x + 15, c2y + 15, fill=color, width=0) 
+    canvas.create_oval(c3x - 15, c3y - 15, c3x + 15, c3y + 15, fill=color, width=0) 
+    canvas.create_oval(c4x - 15, c4y - 15, c4x + 15, c4y + 15, fill=color, width=0) 
+    canvas.create_oval(c5x - 15, c5y - 15, c5x + 15, c5y + 15, fill=color, width=0) 
+    canvas.create_oval(c6x - 15, c6y - 15, c6x + 15, c6y + 15, fill=color, width=0) 
+    canvas.create_oval(c7x - 15, c7y - 15, c7x + 15, c7y + 15, fill=color, width=0)  
+    canvas.create_rectangle(x - 50, y, x + 25, y - 75, fill=color, width=0)
+
+def drawLandscape(canvas):
+    #grass
+    canvas.create_rectangle(-10, -10, 1000, 1000, fill=rgbString(76, 153, 0))
+    #bushes
+    drawBush(canvas, 75, 100)
+    drawBush(canvas, 175, 150)
+    drawBush(canvas, 275, 100)
+    drawBush(canvas, 375, 150)
+    drawBush(canvas, 475, 100)
+    drawBush(canvas, 575, 150)
+    drawBush(canvas, 675, 100)
+    drawBush(canvas, 775, 150)
+    drawBush(canvas, 875, 100)
+    drawBush(canvas, 975, 150)
+    #river
+    canvas.create_rectangle(0, 200, 1000, 300, fill="blue", width=0)
 
 def redrawAll(canvas, data):
     # draw in canvas
