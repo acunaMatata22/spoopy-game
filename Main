@@ -203,6 +203,25 @@ def drawLandscape(canvas):
     drawBush(canvas, 975, 150)
     #river
     canvas.create_rectangle(0, 200, 1000, 300, fill="blue", width=0)
+    
+def getColor(level):
+    if level % 4 == 0:
+        color = 'plum'
+    elif level % 3 == 0:
+        color = 'orange'
+    elif level % 2 == 0:
+        color = 'pink'
+    else:
+        color = 'blue'
+    return color
+    
+def drawTarget(canvas, data, widthR, heightR, level):
+    if level == 0:
+        return
+    canvas.create_oval(800-widthR, 450-heightR, 800+widthR, 450+heightR, fill = getColor(level))
+    widthR -= 20
+    heightR -= 20
+    drawTarget(canvas, data, widthR, heightR, level-1)
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -246,6 +265,7 @@ def redrawAll(canvas, data):
         drawLandscape(canvas)
         data.bow.drawBow(data,canvas)
         data.arrow.drawArrow(data, canvas)
+        drawTarget(canvas, data, 56, 80, 4)
         
 
 ####################################
