@@ -1,3 +1,4 @@
+
 from tkinter import *
 import math
 
@@ -153,10 +154,8 @@ def keyPressed(event, data):
             data.arrow.changePower(-2)
         elif event.keysym == "Right":
             data.arrow.changeAngle(-2)
-            data.bow.changeAngle(-2)
         elif event.keysym == "Left":
             data.arrow.changeAngle(2)
-            data.bow.changeAngle(2)
         elif event.keysym == "f":
             data.arrow.fireArrow()
         elif event.keysym == "r":
