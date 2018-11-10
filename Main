@@ -116,12 +116,6 @@ class Arrow(object):
         canvas.create_rectangle(50, data.height-75, 250, data.height-25, fill = 'white', width = 5)
         canvas.create_rectangle(50, data.height-75, 50 + self.power*2, data.height-25, fill = 'black')
 
-            
-class Bow(Arrow):
-    # contains info for drawing of the bow
-    def drawBow(self, data, canvas):
-        pass
-
 
 ####################################
 # mainframe functions
@@ -179,7 +173,7 @@ def timerFired(data):
                 
 def collision(data):
     old = data.score
-    if data.arrow.x >= 900:
+    if data.arrow.x >= 900 and data.arrow.fired == True:
         if 260 < data.arrow.y < 440 and data.arrow.x < 930:
             data.arrow.fired = False
             if data.arrow.y > 410 or data.arrow.y < 290:
@@ -190,11 +184,11 @@ def collision(data):
                 data.score = 50
             else:
                 data.score = 100
-        elif data.arrow.x > 930:
-            data.score = -10
         elif data.arrow.x > 1000:
             data.arrow.fired = False
-    data.score += old
+        elif data.arrow.x > 930:
+            data.score = -10
+        data.score += old
     
 def rgbString(red, green, blue):
     return "#%02x%02x%02x" % (red, green, blue)
