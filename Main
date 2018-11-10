@@ -15,7 +15,7 @@ class Arrow(object):
             if sign >= 0 and self.power + sign <= 100:
                 self.power += sign
             elif sign < 0 and self.power + sign >= 0:
-                self.power -= sign
+                self.power += sign
     def changeAngle(self, sign):
         if not self.fired:
             if sign >= 0 and self.angle + sign <= 90:
@@ -24,8 +24,8 @@ class Arrow(object):
                 self.angle += sign
     def fireArrow(self):
         self.fired = True
-        self.speedX = (self.power / 3)*math.cos(math.pi * self.angle / 180)
-        self.speedY = (self.power / 3)*math.sin(math.pi * self.angle / 180)
+        self.speedX = (3 * self.power / 10)*math.cos(math.pi * self.angle / 180)
+        self.speedY = (3 * self.power / 10)*math.sin(math.pi * self.angle / 180)
     def move(self):
         self.x += self.speedX
         self.y -= self.speedY
@@ -111,7 +111,6 @@ class Arrow(object):
         canvas.create_polygon(firstKitePointX, firstKitePointY, secondKitePointX, 
             secondKitePointY, thirdKitePointX, thirdKitePointY, fourthKitePointX, 
             fourthKitePointY, fill="gray")
-            
     def drawPowerMeter(self, canvas, data):
         canvas.create_text(150, data.height-90, text = 'Power', font = 'Arial 24')
         canvas.create_rectangle(50, data.height-75, 250, data.height-25, fill = 'white', width = 5)
@@ -130,7 +129,7 @@ class Bow(Arrow):
 
 def init(data):
     # load data.xyz as appropriate
-    data.screens = ["start", "instructions", "game", "end"]
+    data.screens = ["start", "instructions", "game"]
     data.gameMode = data.screens[0]
     data.txtMargin = 10
     loadImages(data)
@@ -138,6 +137,7 @@ def init(data):
     data.startY = data.height - 250
     data.arrow = Arrow(200, data.height - 200, 0)
     data.bow = Bow(150,150,0)
+    data.score = 0
     
 def loadImages(data):
     data.strtImg = PhotoImage(file="Images/natureBack.gif")
@@ -175,6 +175,26 @@ def keyPressed(event, data):
 def timerFired(data):
     if data.arrow.fired:
         data.arrow.move()
+        collision(data)
+                
+def collision(data):
+    old = data.score
+    if data.arrow.x >= 900:
+        if 260 < data.arrow.y < 440 and data.arrow.x < 930:
+            data.arrow.fired = False
+            if data.arrow.y > 410 or data.arrow.y < 290:
+                data.score = 10
+            elif data.arrow.y > 390 or data.arrow.y < 310:
+                data.score = 25
+            elif data.arrow.y > 370 or data.arrow.y < 330:
+                data.score = 50
+            else:
+                data.score = 100
+        elif data.arrow.x > 930:
+            data.score = -10
+        elif data.arrow.x > 1000:
+            data.arrow.fired = False
+    data.score += old
     
 def rgbString(red, green, blue):
     return "#%02x%02x%02x" % (red, green, blue)
@@ -274,15 +294,18 @@ def redrawAll(canvas, data):
     elif data.gameMode == "game":
         drawLandscape(canvas)
         data.bow.drawBow(data,canvas)
-        data.arrow.drawArrow(data, canvas)
         drawTargetStands(canvas, data)
         drawTarget(canvas, data, 56, 80, 4)
+        data.arrow.drawArrow(data, canvas)
         canvas.create_text(data.width // 2, data.height - data.txtMargin,
                                 text="Press \'f\' to fire and 'r' to reset",
                                 font="Arial " + str(data.height // 22),
                                 fill="grey80", anchor=S)
         data.arrow.drawPowerMeter(canvas, data)
-        
+        canvas.create_text(data.width //2, data.txtMargin,
+                                text="SCORE: " + str(data.score),
+                                font="Arial " + str(data.height // 22),
+                                fill="white", anchor=N)
 
 ####################################
 # mainframe loop
