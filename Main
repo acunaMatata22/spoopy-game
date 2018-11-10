@@ -206,19 +206,19 @@ def drawLandscape(canvas):
     
 def getColor(level):
     if level % 4 == 0:
-        color = 'plum'
+        color = 'red'
     elif level % 3 == 0:
-        color = 'orange'
+        color = 'white'
     elif level % 2 == 0:
-        color = 'pink'
+        color = 'red'
     else:
-        color = 'blue'
+        color = 'white'
     return color
     
 def drawTarget(canvas, data, widthR, heightR, level):
     if level == 0:
         return
-    canvas.create_oval(800-widthR, 450-heightR, 800+widthR, 450+heightR, fill = getColor(level))
+    canvas.create_oval(900-widthR, 350-heightR, 900+widthR, 350+heightR, fill = getColor(level))
     widthR -= 20
     heightR -= 20
     drawTarget(canvas, data, widthR, heightR, level-1)
