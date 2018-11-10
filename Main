@@ -219,7 +219,7 @@ def getColor(level):
 def drawTarget(canvas, data, widthR, heightR, level):
     if level == 0:
         return
-    canvas.create_oval(800-widthR, 450-heightR, 800+widthR, 450+heightR, fill = getColor(level))
+    canvas.create_oval(900-widthR, 350-heightR, 900+widthR, 350+heightR, fill = getColor(level))
     widthR -= 20
     heightR -= 20
     drawTarget(canvas, data, widthR, heightR, level-1)
