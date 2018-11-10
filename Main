@@ -1,23 +1,120 @@
 from tkinter import *
-
+import math
 
 class Arrow(object):
+    # contains arrow info for drawing and physics
     def __init__(self, tipX, tipY, angle):
-        self.X, self.Y = tipX, tipY
+        self.x, self.y = tipX, tipY
         self.angle = angle
         self.power = 0 # 0-100
-    def changePower(sign):
-        if sign >= 0 and self.power + sign <= 100:
-            self.power += sign
-        elif sign < 0 and self.power + sign >= 0:
-            self.power -= sign
-    def changeAngle(sign):
-        if sign >= 0 and self.angle + sign <= 90:
-            self.angle += sign
-        elif sign < 0 and self.angle + sign >= 0:
-            self.angle -= sign
-    def shoot(self):
-        #TODO need to implement
+        self.fired = False
+        self.speedX = 0
+        self.speedY = 0
+    def changePower(self, sign):
+        if not self.fired:
+            if sign >= 0 and self.power + sign <= 100:
+                self.power += sign
+            elif sign < 0 and self.power + sign >= 0:
+                self.power -= sign
+    def changeAngle(self, sign):
+        if not self.fired:
+            if sign >= 0 and self.angle + sign <= 90:
+                self.angle += sign
+            elif sign < 0 and self.angle + sign >= 0:
+                self.angle += sign
+    def fireArrow(self):
+        self.fired = True
+        self.speedX = (self.power / 3)*math.cos(math.pi * self.angle / 180)
+        self.speedY = (self.power / 3)*math.sin(math.pi * self.angle / 180)
+    def move(self):
+        self.x += self.speedX
+        self.y -= self.speedY
+        self.speedY -= 2
+    def drawArrow(self, data, canvas):
+        angle = self.angle
+        pointX = self.x
+        pointY = self.y
+        radians = -angle * math.pi / 180
+        pointOfReference1X = pointX + 23 * math.cos(radians + math.pi)
+        pointOfReference1Y = pointY + 23 * math.sin(radians + math.pi)
+        pointOfReference2X = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi - .0125, 3))
+        pointOfReference2Y = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi - .0125, 3))
+        pointOfReference3X = pointX
+        pointOfReference3Y = pointY
+        #arrow body
+        rectangleFirstPointX = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi + .0125, 3))
+        rectangleFirstPointY = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi + .0125, 3))
+        rectangleSecondPointX = pointOfReference1X + 2.5 * \
+            math.cos(radians + 3 * math.pi / 2)
+        rectangleSecondPointY = pointOfReference1Y + 2.5 * \
+            math.sin(radians + 3 * math.pi / 2)
+        rectangleThirdPointX = pointOfReference1X + 2.5 * \
+            math.cos(radians + math.pi / 2)
+        rectangleThirdPointY = pointOfReference1Y + 2.5 * \
+            math.sin(radians + math.pi / 2)
+        rectangleFourthPointX = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi - .0125, 3))
+        rectangleFourthPointY = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi - .0125, 3))
+        canvas.create_polygon(rectangleFirstPointX, rectangleFirstPointY, 
+            rectangleSecondPointX, rectangleSecondPointY, rectangleThirdPointX, 
+            rectangleThirdPointY, rectangleFourthPointX, rectangleFourthPointY, 
+            fill="brown")
+        #arrow tail
+        firstPointX = pointOfReference2X
+        firstPointY = pointOfReference2Y
+        secondPointX = firstPointX + 8.49 * math.cos(radians + 3 * math.pi / 4)
+        secondPointY = firstPointY + 8.49 * math.sin(radians + 3 * math.pi / 4)
+        thirdPointX = secondPointX + 40 * math.cos(radians + math.pi)
+        thirdPointY = secondPointY + 40 * math.sin(radians + math.pi)
+        fourthPointX = thirdPointX + 12 * math.cos(radians + 7 * math.pi / 4)
+        fourthPointY = thirdPointY + 12 * math.sin(radians + 7 * math.pi / 4)
+        fifthPointX = fourthPointX + 12 * math.cos(radians + 5 * math.pi / 4)
+        fifthPointY = fourthPointY + 12 * math.sin(radians + 5 * math.pi / 4)
+        sixthPointX = fifthPointX + 40 * math.cos(radians)
+        sixthPointY = fifthPointY + 40 * math.sin(radians)
+        seventhPointX = sixthPointX + 8.49 * math.cos(radians + math.pi / 4)
+        seventhPointY = sixthPointY + 8.49 * math.sin(radians + math.pi / 4)
+        canvas.create_polygon(firstPointX, firstPointY, secondPointX, secondPointY, 
+            thirdPointX, thirdPointY, fourthPointX, fourthPointY, fifthPointX, 
+            fifthPointY, sixthPointX, sixthPointY, seventhPointX, seventhPointY, 
+            fill="gray")
+        #rectangle in tail
+        topRightX = firstPointX
+        topRightY = firstPointY
+        topLeftX = topRightX + 45 * math.cos(radians + math.pi)
+        topLeftY = topRightY + 45 * math.sin(radians + math.pi)
+        bottomLeftX = topLeftX + 5 * math.cos(radians + 3 * math.pi / 2)
+        bottomLeftY = topLeftY + 5 * math.sin(radians + 3 * math.pi / 2)
+        bottomRightX = bottomLeftX + 45 * math.cos(radians)
+        bottomRightY = bottomLeftY + 45 * math.sin(radians)
+        canvas.create_polygon(topRightX, topRightY, topLeftX, topLeftY, 
+            bottomLeftX, bottomLeftY, bottomRightX, bottomRightY, fill="brown")
+        #arrow head
+        firstKitePointX = pointOfReference3X
+        firstKitePointY = pointOfReference3Y
+        secondKitePointX = pointOfReference3X + 42.7 * \
+            math.cos(radians + 10 * math.pi / 9)
+        secondKitePointY = pointOfReference3Y + 42.7 * \
+            math.sin(radians + 10 * math.pi / 9)
+        thirdKitePointX = pointOfReference3X + 25 * math.cos(radians + math.pi)
+        thirdKitePointY = pointOfReference3Y + 25 * math.sin(radians + math.pi)
+        fourthKitePointX = pointOfReference3X + 42.7 * \
+            math.cos(radians + 8 * math.pi / 9)
+        fourthKitePointY = pointOfReference3Y + 42.7 * \
+            math.sin(radians + 8 * math.pi / 9)
+        canvas.create_polygon(firstKitePointX, firstKitePointY, secondKitePointX, 
+            secondKitePointY, thirdKitePointX, thirdKitePointY, fourthKitePointX, 
+            fourthKitePointY, fill="gray")
+
+            
+class Bow(Arrow):
+    # contains info for drawing of the bow
+    def drawBow(self, data, canvas):
         pass
 
 ####################################
@@ -30,6 +127,10 @@ def init(data):
     data.gameMode = data.screens[0]
     data.txtMargin = 10
     loadImages(data)
+    data.startX = 250 # arrow tips start position
+    data.startY = data.height - 250
+    data.arrow = Arrow(150, 150, 0)
+    data.bow = Bow(150,150,0)
     
 def loadImages(data):
     data.strtImg = PhotoImage(file="Images/natureBack.gif")
@@ -39,12 +140,12 @@ def mousePressed(event, data):
     pass
 
 def keyPressed(event, data):
-    # Working
     # use event.char and event.keysym
     if data.gameMode == data.screens[0] and event.keysym == "space":
         data.gameMode = data.screens[1]
     elif data.gameMode == data.screens[1] and event.keysym == "space":
         data.gameMode = data.screens[2]
+        
     elif data.gameMode == data.screens[2]:
         if event.keysym == "Up":
             data.arrow.changePower(2)
@@ -52,15 +153,17 @@ def keyPressed(event, data):
             data.arrow.changePower(-2)
         elif event.keysym == "Right":
             data.arrow.changeAngle(-2)
+            data.bow.changeAngle(-2)
         elif event.keysym == "Left":
             data.arrow.changeAngle(2)
+            data.bow.changeAngle(2)
         elif event.keysym == "space":
-            data.arrow.shoot()
+            data.arrow.fireArrow()
         elif event.char == 'h':
             data.gameMode = data.screens[1]
             
 def timerFired(data):
-    pass
+    data.arrow.move()
 
 def redrawAll(canvas, data):
     # draw in canvas
@@ -101,6 +204,9 @@ def redrawAll(canvas, data):
                                     text="Press \'h\' for help",
                                     font="Arial " + str(data.height // 22),
                                     fill="grey80", anchor=S)
+        data.bow.drawBow(data,canvas)
+        data.arrow.drawArrow(data, canvas)
+        
 
 ####################################
 # mainframe loop
@@ -150,4 +256,4 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(800, 400)
+run(1000, 600)
