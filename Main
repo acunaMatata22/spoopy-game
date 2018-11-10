@@ -29,6 +29,7 @@ class Arrow(object):
     def move(self):
         self.x += self.speedX
         self.y -= self.speedY
+        self.angle = math.atan(self.speedY/self.speedX)*180/math.pi
         self.speedY -= 1
     def drawArrow(self, data, canvas):
         angle = self.angle
@@ -130,7 +131,7 @@ def init(data):
     loadImages(data)
     data.startX = 250 # arrow tips start position
     data.startY = data.height - 250
-    data.arrow = Arrow(150, data.height - 150, 0)
+    data.arrow = Arrow(200, data.height - 200, 0)
     data.bow = Bow(150,150,0)
     
 def loadImages(data):
@@ -160,6 +161,9 @@ def keyPressed(event, data):
             data.bow.changeAngle(2)
         elif event.keysym == "f":
             data.arrow.fireArrow()
+        elif event.keysym == "r":
+            data.arrow = Arrow(200, data.height - 200, 0)
+            data.bow = Bow(150,150,0)
         elif event.char == 'h':
             data.gameMode = data.screens[1]
             
