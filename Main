@@ -6,7 +6,9 @@ from tkinter import *
 
 def init(data):
     # load data.xyz as appropriate
-    pass
+    data.screens = ["start", "game", "end"]
+    data.gameMode = data.screens[0]
+    data.txtmargin = 10
 
 def mousePressed(event, data):
     # use event.x and event.y
@@ -21,7 +23,19 @@ def timerFired(data):
 
 def redrawAll(canvas, data):
     # draw in canvas
-    pass
+        if data.gameMode == "start":
+        canvas.create_text(2*data.width // 5 - 5, data.height // 3, text="The",
+                                    font="Arial " + str(data.height // 10 - 3))
+        canvas.create_text(3*data.width // 5 - 5, 2*data.height // 3,
+                    text="Game", font="Arial " + str(data.height // 10 - 3))
+        canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
+                                    text="Press \"p\" to play...",
+                                    font="Arial " + str(data.height // 22),
+                                    fill="grey40", anchor=S)
+        #draw CLICKER last to stand out better
+        canvas.create_text(data.width // 2, data.height // 2, text="CLICKER",
+                                font="Arial " + str(data.height // 6) + " bold",
+                                fill="gold")
 
 ####################################
 # use the run function as-is
