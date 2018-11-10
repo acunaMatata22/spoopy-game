@@ -116,6 +116,84 @@ class Bow(Arrow):
     # contains info for drawing of the bow
     def drawBow(self, data, canvas):
         pass
+    def drawArrow(canvas, pointX, pointY, angle):
+        radians = -angle * math.pi / 180
+        pointOfReference1X = pointX + 23 * math.cos(radians + math.pi)
+        pointOfReference1Y = pointY + 23 * math.sin(radians + math.pi)
+        pointOfReference2X = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi - .0125, 3))
+        pointOfReference2Y = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi - .0125, 3))
+        pointOfReference3X = pointX
+        pointOfReference3Y = pointY
+        #arrow body
+        rectangleFirstPointX = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi + .0125, 3))
+        rectangleFirstPointY = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi + .0125, 3))
+        rectangleSecondPointX = pointOfReference1X + 2.5 * \
+            math.cos(radians + 3 * math.pi / 2)
+        rectangleSecondPointY = pointOfReference1Y + 2.5 * \
+            math.sin(radians + 3 * math.pi / 2)
+        rectangleThirdPointX = pointOfReference1X + 2.5 * \
+            math.cos(radians + math.pi / 2)
+        rectangleThirdPointY = pointOfReference1Y + 2.5 * \
+            math.sin(radians + math.pi / 2)
+        rectangleFourthPointX = pointOfReference1X + 200 * \
+            math.cos(round(radians + math.pi - .0125, 3))
+        rectangleFourthPointY = pointOfReference1Y + 200 * \
+            math.sin(round(radians + math.pi - .0125, 3))
+        canvas.create_polygon(rectangleFirstPointX, rectangleFirstPointY, 
+            rectangleSecondPointX, rectangleSecondPointY, rectangleThirdPointX, 
+            rectangleThirdPointY, rectangleFourthPointX, rectangleFourthPointY, 
+            fill="brown")
+        #arrow tail
+        firstPointX = pointOfReference2X
+        firstPointY = pointOfReference2Y
+        secondPointX = firstPointX + 8.49 * math.cos(radians + 3 * math.pi / 4)
+        secondPointY = firstPointY + 8.49 * math.sin(radians + 3 * math.pi / 4)
+        thirdPointX = secondPointX + 40 * math.cos(radians + math.pi)
+        thirdPointY = secondPointY + 40 * math.sin(radians + math.pi)
+        fourthPointX = thirdPointX + 12 * math.cos(radians + 7 * math.pi / 4)
+        fourthPointY = thirdPointY + 12 * math.sin(radians + 7 * math.pi / 4)
+        fifthPointX = fourthPointX + 12 * math.cos(radians + 5 * math.pi / 4)
+        fifthPointY = fourthPointY + 12 * math.sin(radians + 5 * math.pi / 4)
+        sixthPointX = fifthPointX + 40 * math.cos(radians)
+        sixthPointY = fifthPointY + 40 * math.sin(radians)
+        seventhPointX = sixthPointX + 8.49 * math.cos(radians + math.pi / 4)
+        seventhPointY = sixthPointY + 8.49 * math.sin(radians + math.pi / 4)
+        canvas.create_polygon(firstPointX, firstPointY, secondPointX, secondPointY, 
+            thirdPointX, thirdPointY, fourthPointX, fourthPointY, fifthPointX, 
+            fifthPointY, sixthPointX, sixthPointY, seventhPointX, seventhPointY, 
+            fill="gray")
+        #rectangle in tail
+        topRightX = firstPointX
+        topRightY = firstPointY
+        topLeftX = topRightX + 45 * math.cos(radians + math.pi)
+        topLeftY = topRightY + 45 * math.sin(radians + math.pi)
+        bottomLeftX = topLeftX + 5 * math.cos(radians + 3 * math.pi / 2)
+        bottomLeftY = topLeftY + 5 * math.sin(radians + 3 * math.pi / 2)
+        bottomRightX = bottomLeftX + 45 * math.cos(radians)
+        bottomRightY = bottomLeftY + 45 * math.sin(radians)
+        canvas.create_polygon(topRightX, topRightY, topLeftX, topLeftY, 
+            bottomLeftX, bottomLeftY, bottomRightX, bottomRightY, fill="brown")
+        #arrow head
+        firstKitePointX = pointOfReference3X
+        firstKitePointY = pointOfReference3Y
+        secondKitePointX = pointOfReference3X + 42.7 * \
+            math.cos(radians + 10 * math.pi / 9)
+        secondKitePointY = pointOfReference3Y + 42.7 * \
+            math.sin(radians + 10 * math.pi / 9)
+        thirdKitePointX = pointOfReference3X + 25 * math.cos(radians + math.pi)
+        thirdKitePointY = pointOfReference3Y + 25 * math.sin(radians + math.pi)
+        fourthKitePointX = pointOfReference3X + 42.7 * \
+            math.cos(radians + 8 * math.pi / 9)
+        fourthKitePointY = pointOfReference3Y + 42.7 * \
+            math.sin(radians + 8 * math.pi / 9)
+        canvas.create_polygon(firstKitePointX, firstKitePointY, secondKitePointX, 
+            secondKitePointY, thirdKitePointX, thirdKitePointY, fourthKitePointX, 
+            fourthKitePointY, fill="gray")
+
 
 
 ####################################
