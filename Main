@@ -9,7 +9,11 @@ def init(data):
     data.screens = ["start", "game", "end"]
     data.gameMode = data.screens[0]
     data.txtMargin = 10
-
+    loadImages(data)
+    
+def loadImages(data):
+    data.strtImg = PhotoImage(file="Images/natureBack.gif")
+    
 def mousePressed(event, data):
     # use event.x and event.y
     pass
@@ -24,14 +28,18 @@ def timerFired(data):
 def redrawAll(canvas, data):
     # draw in canvas
     if data.gameMode == "start":
+        canvas.create_image(data.width / 2, data.height / 2,
+                                            image=data.strtImg)
         canvas.create_text(2*data.width // 5 - 10, data.height // 3, text="The",
-                                    font="Arial " + str(data.height // 10 - 3))
+                                    font="Arial " + str(data.height // 10 - 3),
+                                    fill="white")
         canvas.create_text(3*data.width // 5, 2*data.height // 3,
-                    text="Game", font="Arial " + str(data.height // 10 - 3))
+                    text="Game", font="Arial " + str(data.height // 10 - 3),
+                                    fill="white")
         canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
                                     text="Press \"p\" to play...",
                                     font="Arial " + str(data.height // 22),
-                                    fill="grey40", anchor=S)
+                                    fill="grey80", anchor=S)
         #draw CLICKER last to stand out better
         canvas.create_text(data.width // 2, data.height // 2, text="ARROW",
                                 font="Arial " + str(data.height // 5) + " bold",
