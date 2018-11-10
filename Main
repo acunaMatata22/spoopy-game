@@ -8,7 +8,7 @@ def init(data):
     # load data.xyz as appropriate
     data.screens = ["start", "game", "end"]
     data.gameMode = data.screens[0]
-    data.txtmargin = 10
+    data.txtMargin = 10
 
 def mousePressed(event, data):
     # use event.x and event.y
@@ -23,7 +23,7 @@ def timerFired(data):
 
 def redrawAll(canvas, data):
     # draw in canvas
-        if data.gameMode == "start":
+    if data.gameMode == "start":
         canvas.create_text(2*data.width // 5 - 5, data.height // 3, text="The",
                                     font="Arial " + str(data.height // 10 - 3))
         canvas.create_text(3*data.width // 5 - 5, 2*data.height // 3,
@@ -85,4 +85,4 @@ def run(width=300, height=300):
     root.mainloop()  # blocks until window is closed
     print("bye!")
 
-run(400, 200)
+run(800, 400)
