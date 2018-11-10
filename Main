@@ -207,13 +207,13 @@ def drawLandscape(canvas):
     
 def getColor(level):
     if level % 4 == 0:
-        color = 'plum'
+        color = 'red'
     elif level % 3 == 0:
-        color = 'orange'
+        color = 'white'
     elif level % 2 == 0:
-        color = 'pink'
+        color = 'red'
     else:
-        color = 'blue'
+        color = 'white'
     return color
     
 def drawTarget(canvas, data, widthR, heightR, level):
