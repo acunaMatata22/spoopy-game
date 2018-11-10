@@ -111,6 +111,11 @@ class Arrow(object):
         canvas.create_polygon(firstKitePointX, firstKitePointY, secondKitePointX, 
             secondKitePointY, thirdKitePointX, thirdKitePointY, fourthKitePointX, 
             fourthKitePointY, fill="gray")
+            
+    def drawPowerMeter(self, canvas, data):
+        canvas.create_text(150, data.height-90, text = 'Power', font = 'Arial 24')
+        canvas.create_rectangle(50, data.height-75, 250, data.height-25, fill = 'white', width = 5)
+        canvas.create_rectangle(50, data.height-75, 50 + self.power*2, data.height-25, fill = 'black')
 
             
 class Bow(Arrow):
@@ -271,6 +276,7 @@ def redrawAll(canvas, data):
                                 text="Press \'f\' to fire and 'r' to reset",
                                 font="Arial " + str(data.height // 22),
                                 fill="grey80", anchor=S)
+        data.arrow.drawPowerMeter(canvas, data)
         
 
 ####################################
