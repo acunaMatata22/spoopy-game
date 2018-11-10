@@ -130,7 +130,6 @@ def init(data):
     data.startX = 250 # arrow tips start position
     data.startY = data.height - 250
     data.arrow = Arrow(200, data.height - 200, 0)
-    data.bow = Bow(150,150,0)
     data.score = 0
     
 def loadImages(data):
@@ -162,7 +161,6 @@ def keyPressed(event, data):
             data.arrow.fireArrow()
         elif event.keysym == "r":
             data.arrow = Arrow(200, data.height - 200, 0)
-            data.bow = Bow(150,150,0)
         elif event.char == 'h':
             data.gameMode = data.screens[1]
             
@@ -287,7 +285,6 @@ def redrawAll(canvas, data):
                                     fill="grey80", anchor=S)
     elif data.gameMode == "game":
         drawLandscape(canvas)
-        data.bow.drawBow(data,canvas)
         drawTargetStands(canvas, data)
         drawTarget(canvas, data, 56, 80, 4)
         data.arrow.drawArrow(data, canvas)
