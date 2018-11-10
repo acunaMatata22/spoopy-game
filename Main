@@ -29,7 +29,7 @@ class Arrow(object):
     def move(self):
         self.x += self.speedX
         self.y -= self.speedY
-        self.speedY -= 2
+        self.speedY -= 1
     def drawArrow(self, data, canvas):
         angle = self.angle
         pointX = self.x
@@ -130,7 +130,7 @@ def init(data):
     loadImages(data)
     data.startX = 250 # arrow tips start position
     data.startY = data.height - 250
-    data.arrow = Arrow(150, 150, 0)
+    data.arrow = Arrow(150, data.height - 150, 0)
     data.bow = Bow(150,150,0)
     
 def loadImages(data):
@@ -158,13 +158,14 @@ def keyPressed(event, data):
         elif event.keysym == "Left":
             data.arrow.changeAngle(2)
             data.bow.changeAngle(2)
-        elif event.keysym == "space":
+        elif event.keysym == "f":
             data.arrow.fireArrow()
         elif event.char == 'h':
             data.gameMode = data.screens[1]
             
 def timerFired(data):
-    data.arrow.move()
+    if data.arrow.fired:
+        data.arrow.move()
     
 def rgbString(red, green, blue):
     return "#%02x%02x%02x" % (red, green, blue)
@@ -258,14 +259,14 @@ def redrawAll(canvas, data):
                                     font="Arial " + str(data.height // 22),
                                     fill="grey80", anchor=S)
     elif data.gameMode == "game":
-        canvas.create_text(data.width // 2 + 3, data.height - data.txtMargin,
-                                    text="Press \'h\' for help",
-                                    font="Arial " + str(data.height // 22),
-                                    fill="grey80", anchor=S)
         drawLandscape(canvas)
         data.bow.drawBow(data,canvas)
         data.arrow.drawArrow(data, canvas)
         drawTarget(canvas, data, 56, 80, 4)
+        canvas.create_text(data.width // 2, data.height - data.txtMargin,
+                                text="Press \'f\' to fire and 'r' to reset",
+                                font="Arial " + str(data.height // 22),
+                                fill="grey80", anchor=S)
         
 
 ####################################
@@ -298,7 +299,7 @@ def run(width=300, height=300):
     data = Struct()
     data.width = width
     data.height = height
-    data.timerDelay = 100 # milliseconds
+    data.timerDelay = 20 # milliseconds
     root = Tk()
     root.resizable(width=False, height=False) # prevents resizing window
     init(data)
