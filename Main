@@ -39,6 +39,7 @@ def mousePressed(event, data):
     pass
 
 def keyPressed(event, data):
+    # Working
     # use event.char and event.keysym
     if data.gameMode == data.screens[0] and event.keysym == "space":
         data.gameMode = data.screens[1]
